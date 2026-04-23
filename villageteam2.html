@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हमारी टीम | गाँव-वार संपर्क</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .navbar { background-color: #004d40 !important; }
+        .card { transition: 0.3s; border-radius: 10px; height: 100%; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-load-more { background-color: #004d40; color: white; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container"><a class="navbar-brand" href="index.html">← वापस होम</a></div>
+    </nav>
+
+    <div class="container py-5">
+        <h2 class="text-center mb-4">गाँव-वार टीम संपर्क</h2>
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6"><input type="text" id="searchInput" class="form-control" placeholder="गाँव का नाम खोजें..."></div>
+        </div>
+
+        <div class="row g-4" id="villageList">
+            </div>
+
+        <div class="text-center mt-4">
+            <button id="loadMoreBtn" class="btn btn-load-more btn-lg">और लोड करें</button>
+        </div>
+    </div>
+
+    <script>
+        const villages = [
+            "Alawalpur", "Anuva", "Ara Khurd", "Atar Suiya", "Baboopur Belo", "Bagadaha Urf Pure Vikramshah", "Bagdaha Hawasabad", "Baghapur", "Bagheri", "Barana",
+            "Baresta Khurd", "Barista Kala", "Bariyanwa", "Bariyari", "Basana Khas", "Basanehata", "Bazati", "Bela Khas", "Bhadari", "Bhaelakha",
+            "Bhempur", "Bhogawara", "Bhoja Raja", "Bhoolend", "Bibiwari", "Bindrawan", "Birapur", "Chaka Kathar", "Chak Gahari", "Chak Hanuman",
+            "Chakiya Sathar", "Chakiya Urf Chak Todar", "Chak Parwal", "Chak Puremiyan", "Chak Shah Isarar Ali", "Chak Thakuraen", "Champapur", "Chanethu", "Chauka", "Chetara",
+            "Chhatauna", "Dalapatpur", "Devali", "Dhaurhara", "Fatehpur Maphi", "Gaoharpur Ta.masari", "Golawa", "Gora Dauli", "Gosaisipur", "Gothawa"
+        ];
+
+        let displayLimit = 20;
+        const villageList = document.getElementById('villageList');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const searchInput = document.getElementById('searchInput');
+
+        function renderVillages(filter = "") {
+            villageList.innerHTML = "";
+            let filtered = villages.filter(v => v.toLowerCase().includes(filter.toLowerCase()));
+            let toShow = filtered.slice(0, displayLimit);
+
+            toShow.forEach(village => {
+                villageList.innerHTML += `
+                    <div class="col-md-4 village-card">
+                        <div class="card p-3 shadow-sm">
+                            <h5 class="card-title text-primary">${village}</h5>
+                            <p class="mb-2">लीडर: (जल्द अपडेट होगा)</p>
+                            <a href="#" class="btn btn-success btn-sm w-100 mb-2"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                            <a href="#" class="btn btn-outline-dark btn-sm w-100"><i class="fas fa-phone"></i> कॉल करें</a>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (toShow.length >= filtered.length) loadMoreBtn.style.display = 'none';
+            else loadMoreBtn.style.display = 'block';
+        }
+
+        searchInput.addEventListener('input', (e) => renderVillages(e.target.value));
+        loadMoreBtn.addEventListener('click', () => {
+            displayLimit += 20;
+            renderVillages(searchInput.value);
+        });
+
+        renderVillages();
+    </script>
+</body>
+</html>
